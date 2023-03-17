@@ -12,7 +12,7 @@ void outputStreamToStream(std::istream& in, std::ostream& out);
 }
 
 int main() {
-  std::cout << "PROCESS CREATION\n\n";
+  std::cout << "PROCESS CREATION APP\n\n";
 
   HANDLE creatorThread;
   DWORD creatorThreadID;
@@ -26,6 +26,7 @@ int main() {
   // int employeesNum;
   std::cin >> creatorProps->recordsNum;
 
+  std::cout << "\n";
   creatorThread = CreateThread(NULL, 0, creator::Creator, (void*)creatorProps,
                                0, &creatorThreadID);
   if (!creatorThread) {
@@ -35,7 +36,7 @@ int main() {
   WaitForSingleObject(creatorThread, INFINITE);
   CloseHandle(creatorThread);
 
-  std::cout << "\nYour data is saved in " << creatorProps->fileName << " as:\n";
+  std::cout << "Your data is saved in " << creatorProps->fileName << " as:\n";
 
   std::ifstream dataFile(creatorProps->fileName, std::ios::binary);
   outputStreamToStream(dataFile, std::cout);
@@ -47,7 +48,7 @@ int main() {
   DWORD reporterThreadID;
   reporter::IReporterProps* reporterProps = new reporter::IReporterProps();
 
-  strcpy(reporterProps->binaryName, creatorProps->fileName);
+  strcpy_s(reporterProps->binaryName, creatorProps->fileName);
 
   std::cout << "Enter report file name: ";
   std::cin >> reporterProps->fileName;
@@ -55,6 +56,7 @@ int main() {
   std::cout << "Enter wage: ";
   std::cin >> reporterProps->wage;
 
+  std::cout << "\n";
   reporterThread = CreateThread(NULL, 0, reporter::Reporter,
                                 (void*)reporterProps, 0, &reporterThreadID);
   if (!reporterThread) {
@@ -64,8 +66,8 @@ int main() {
   WaitForSingleObject(reporterThread, INFINITE);
   CloseHandle(reporterThread);
 
-  std::cout << "\nYour report is saved in " << reporterProps->fileName
-            << " as:\n ";
+  std::cout << "Your report is saved in " << reporterProps->fileName
+            << " as:\n";
 
   std::ifstream reportFile(reporterProps->fileName, std::ios::binary);
   outputStreamToStream(reportFile, std::cout);
@@ -73,7 +75,7 @@ int main() {
 
   std::cout << "\n";
 
-  std::cout << "Work Ended\n";
+  std::cout << "PROCESS CREATION FINISHED\n";
 
   return 0;
 }
