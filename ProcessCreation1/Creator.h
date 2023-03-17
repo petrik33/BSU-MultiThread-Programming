@@ -1,4 +1,5 @@
-#pragma once
+#ifndef CREATOR_H_
+#define CREATOR_H_
 
 #include <Windows.h>
 
@@ -20,3 +21,5 @@ Employee* readEmployeeFromConsole();
 void writeEmployeeToStream(Employee* employee, std::ostream& out);
 
 }  // namespace creator
+
+#endif
