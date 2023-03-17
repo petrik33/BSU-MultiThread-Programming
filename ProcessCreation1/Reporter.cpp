@@ -4,7 +4,7 @@ namespace reporter {
 
 DWORD __stdcall reporter::Reporter(LPVOID iReporterProps) {
   const IReporterProps* props = static_cast<IReporterProps*>(iReporterProps);
-  std::cout << "REPORTER Started\n\n";
+  std::cout << "REPORTER started work\n\n";
 
   std::ifstream input(props->binaryName, std::ios::in | std::ios::binary);
   std::ofstream output(props->fileName, std::ios::out);
