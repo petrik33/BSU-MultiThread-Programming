@@ -14,7 +14,6 @@ DWORD __stdcall Creator(LPVOID iCreatorProps) {
     delete employee;
   }
 
-  output << "\n";
   output.close();
 
   return 0;
