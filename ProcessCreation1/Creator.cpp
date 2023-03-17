@@ -11,6 +11,7 @@ DWORD __stdcall Creator(LPVOID iCreatorProps) {
     writeEmployeeToStream(employee, output);
     // Debug
     writeEmployeeToStream(employee, std::clog);
+    delete employee;
   }
 
   output << "\n";
