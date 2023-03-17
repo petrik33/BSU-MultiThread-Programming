@@ -4,6 +4,8 @@ namespace creator {
 
 DWORD __stdcall Creator(LPVOID iCreatorProps) {
   const ICreatorProps* props = static_cast<ICreatorProps*>(iCreatorProps);
+  std::cout << "CREATOR started work\n\n";
+
   std::ofstream output(props->fileName, std::ios::out | std::ios::binary);
 
   for (int i = 0; i < props->recordsNum; i++) {
@@ -16,6 +18,7 @@ DWORD __stdcall Creator(LPVOID iCreatorProps) {
 
   output.close();
 
+  std::cout << "CREATOR ended work\n\n";
   return 0;
 }
 
@@ -30,6 +33,8 @@ Employee* readEmployeeFromConsole() {
 
   std::cout << "Please enter employee working hours: ";
   std::cin >> employee->hours;
+
+  return employee;
 }
 
 void writeEmployeeToStream(Employee* employee, std::ostream& out) {
