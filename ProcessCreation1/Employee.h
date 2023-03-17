@@ -10,4 +10,4 @@ struct Employee
 	double hours; // количество отработанных часов
 };
 
-Employee* readEmployeeFromStream(const std::istream& in);
+Employee* readEmployeeFromStream(std::istream& in);
