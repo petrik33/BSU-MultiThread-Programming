@@ -11,3 +11,4 @@ struct Employee
 };
 
 Employee* readEmployeeFromStream(std::istream& in);
+Employee* readEmployeeFromConsole();
