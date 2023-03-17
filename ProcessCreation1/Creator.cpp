@@ -12,6 +12,9 @@ DWORD __stdcall Creator(LPVOID iCreatorProps) {
     // Debug
     writeEmployeeToStream(employee, std::clog);
   }
+
+  output << "\n";
+  output.close();
 }
 
 Employee* readEmployeeFromConsole() {
