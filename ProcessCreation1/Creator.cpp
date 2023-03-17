@@ -3,7 +3,7 @@
 namespace creator {
 
 DWORD __stdcall Creator(LPVOID iCreatorProps) {
-  ICreatorProps* props = static_cast<ICreatorProps*>(iCreatorProps);
+  const ICreatorProps* props = static_cast<ICreatorProps*>(iCreatorProps);
   std::ofstream output(props->fileName, std::ios::out | std::ios::binary);
 
   for (int i = 0; i < props->recordsNum; i++) {
@@ -15,6 +15,8 @@ DWORD __stdcall Creator(LPVOID iCreatorProps) {
 
   output << "\n";
   output.close();
+
+  return 0;
 }
 
 Employee* readEmployeeFromConsole() {
