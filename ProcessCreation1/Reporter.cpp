@@ -4,6 +4,7 @@ namespace reporter {
 
 DWORD __stdcall reporter::Reporter(LPVOID iReporterProps) {
   const IReporterProps* props = static_cast<IReporterProps*>(iReporterProps);
+  std::cout << "REPORTER Started\n\n";
 
   std::ifstream input(props->binaryName, std::ios::in | std::ios::binary);
   std::ofstream output(props->fileName, std::ios::out);
@@ -12,6 +13,11 @@ DWORD __stdcall reporter::Reporter(LPVOID iReporterProps) {
 
   while (!input.eof()) {
     Employee* employee = readEmployeeFromBinary(input);
+
+    if (!employee) {
+      continue;
+    }
+
     writeReportLine(employee, props->wage, output);
     delete employee;
   }
@@ -19,14 +25,29 @@ DWORD __stdcall reporter::Reporter(LPVOID iReporterProps) {
   input.close();
   output.close();
 
+  std::cout << "REPORTER ended work\n\n";
+
   return 0;
 }
 
 Employee* reporter::readEmployeeFromBinary(std::ifstream& in) {
+  int num;
+  char name[50];
+  double hours;
+
+  if (!(in >> num)) {
+    return nullptr;
+  }
+
+  in >> name;
+  in >> hours;
+
   Employee* employee = new Employee();
-  in >> employee->num;
-  in >> employee->name;
-  in >> employee->hours;
+
+  employee->num = num;
+  strcpy_s(employee->name, name);
+  employee->hours = hours;
+
   return employee;
 }
 
