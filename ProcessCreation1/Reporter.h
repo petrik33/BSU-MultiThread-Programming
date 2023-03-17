@@ -19,7 +19,7 @@ struct IReporterProps {
 DWORD WINAPI Reporter(LPVOID iReporterProps);
 
 Employee* readEmployeeFromBinary(std::ifstream& in);
-void writeReportLine(Employee* employee, double wage);
+void writeReportLine(Employee* employee, double wage, std::ostream& out);
 
 }  // namespace reporter
 
