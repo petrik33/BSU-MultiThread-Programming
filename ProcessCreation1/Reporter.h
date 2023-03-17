@@ -21,6 +21,6 @@ DWORD WINAPI Reporter(LPVOID iReporterProps);
 Employee* readEmployeeFromBinary(std::ifstream& in);
 void writeReportLine(Employee* employee, double wage);
 
-}
+}  // namespace reporter
 
 #endif  // !REPORTER_H_
