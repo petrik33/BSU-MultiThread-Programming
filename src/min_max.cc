@@ -28,6 +28,7 @@ WIN_INT_PAIR LocateMinMax(WIN_PINT array, WIN_INT size) {
             min_max.second = element;
             min_max_pos.second = i;
         }
+        boost::winapi::Sleep(7);
     }
     return min_max_pos;
 }
