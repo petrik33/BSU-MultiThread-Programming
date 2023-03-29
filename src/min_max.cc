@@ -1,4 +1,4 @@
-#include "min_max.h"
+#include "../include/min_max.h"
 
 namespace min_max_thread {
 boost::winapi::DWORD_ MinMax(boost::winapi::LPVOID_ iMinMaxProps) {
