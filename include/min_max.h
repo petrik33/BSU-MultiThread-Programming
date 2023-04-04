@@ -2,35 +2,37 @@
 #define INCLUDE_MIN_MAX_H_
 
 #include <algorithm>
-#include <boost/winapi/thread.hpp>
+#include <boost/thread.hpp>
 #include <iostream>
-#include <limits>
 #include <utility>
 
 namespace min_max_thread {
 
-typedef boost::winapi::INT_ WIN_INT;
-typedef boost::winapi::PINT_ WIN_PINT;
-typedef boost::winapi::DWORD_ WIN_DWORD;
-typedef boost::winapi::LPVOID_ WIN_LPVOID;
-typedef std::pair<WIN_INT, WIN_INT> WIN_INT_PAIR;
+typedef std::pair<int, int> min_max_location_pair;
 
 class IMinMaxProps {
    public:
-    IMinMaxProps(WIN_PINT array, WIN_INT size);
-    WIN_PINT array();
-    WIN_INT size();
-    WIN_INT_PAIR min_max_pos();
-    void set_min_max_pos(WIN_INT_PAIR min_max_pos);
+    IMinMaxProps(int* array, int size);
+    int* array() const;
+    int size() const;
 
-   protected:
-    WIN_PINT array_;
-    WIN_INT size_;
-    WIN_INT_PAIR min_max_pos_;
+   private:
+    int* array_;
+    int size_;
 };
 
-WIN_DWORD MinMax(WIN_LPVOID iMinMaxProps);
-WIN_INT_PAIR LocateMinMax(WIN_PINT array, WIN_INT size);
+class IMinMaxPromise {
+   public:
+    IMinMaxPromise();
+    boost::unique_future<min_max_location_pair> get_future();
+    void set_value(min_max_location_pair min_max_pos_);
+
+   protected:
+    boost::promise<min_max_location_pair> promise_;
+};
+
+int MinMaxWorker(const IMinMaxProps& props, IMinMaxPromise& promise);
+min_max_location_pair LocateMinMax(const int* array, const int size);
 
 }  // namespace min_max_thread
 
