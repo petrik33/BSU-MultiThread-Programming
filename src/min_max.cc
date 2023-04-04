@@ -40,15 +40,6 @@ min_max_location_pair LocateMinMax(const int* array, const int size) {
     return min_max_pos;
 }
 
-IMinMaxProps::IMinMaxProps(int* array, int size) {
-    array_ = array;
-    size_ = size;
-}
-
-int* IMinMaxProps::array() const { return array_; }
-
-int IMinMaxProps::size() const { return size_; }
-
 IMinMaxPromise::IMinMaxPromise() : promise_(boost::promise<min_max_location_pair>()){};
 
 boost::unique_future<min_max_location_pair> IMinMaxPromise::get_future() {

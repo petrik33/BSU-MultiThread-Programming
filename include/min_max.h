@@ -3,23 +3,14 @@
 
 #include <algorithm>
 #include <boost/thread.hpp>
+#include "./array_thread.h"
 #include <iostream>
 #include <utility>
 
 namespace min_max_thread {
 
 typedef std::pair<int, int> min_max_location_pair;
-
-class IMinMaxProps {
-   public:
-    IMinMaxProps(int* array, int size);
-    int* array() const;
-    int size() const;
-
-   private:
-    int* array_;
-    int size_;
-};
+typedef array_thread::IArrayThreadProps IMinMaxProps;
 
 class IMinMaxPromise {
    public:
