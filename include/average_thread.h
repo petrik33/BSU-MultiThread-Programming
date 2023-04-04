@@ -4,18 +4,11 @@
 #include <boost/thread.hpp>
 #include <iostream>
 
+#include "./array_thread.h"
+
 namespace average_thread {
 
-class IAverageProps {
-   public:
-    IAverageProps(int* array, int size);
-    int* array() const;
-    int size() const;
-
-   private:
-    int* array_;
-    int size_;
-};
+typedef array_thread::IArrayThreadProps IAverageProps;
 
 class IAveragePromise {
    public:
