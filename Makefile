@@ -45,9 +45,10 @@ $(OBJ_DIR) $(BIN_DIR):
 
 # Phony targets
 .PHONY: clean test run
+build: $(MAIN_TARGET)
 test: $(TEST_TARGET)
 	$(TEST_TARGET)
-run: $(MAIN_TARGET)
+run: build
 	$(MAIN_TARGET)
 clean:
 	rm -rf $(OBJ_DIR)/* $(BIN_DIR)/*
