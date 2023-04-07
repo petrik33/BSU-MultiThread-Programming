@@ -10,12 +10,12 @@ int min_max_thread::MinMaxWorker(const IMinMaxProps& props, IMinMaxPromise& prom
 
 int average_thread::AverageWorker(const IAverageProps& props, IAveragePromise& promise);
 
+int InputArraySizeFromConsole();
+
 int main() {
     std::cout << "PROGRAM started\n";
 
-    size_t size;
-    std::cout << "Enter array size: ";
-    std::cin >> size;
+    int size = InputArraySizeFromConsole();
 
     auto array = std::shared_ptr<int[]>(new int[size]);
     std::cout << "Enter array elements:" << std::endl;
@@ -50,7 +50,7 @@ int main() {
         std::cerr << error.what() << std::endl;
     }
 
-    std::cout << "Changing min and max elements with floored average:" << std::endl;
+    std::cout << "Changing min and max elements with floored average..." << std::endl;
 
     int min_pos = min_max_pos.first;
     int max_pos = min_max_pos.second;
@@ -66,4 +66,15 @@ int main() {
 
     std::cout << "PROGRAM ended\n";
     return 0;
+}
+
+int InputArraySizeFromConsole() {
+    int size;
+    std::cout << "Enter array size: ";
+    std::cin >> size;
+    while (size < 1) {
+        std::cout << "Invalid array size. Please, enter again: ";
+        std::cin >> size;
+    }
+    return size;
 }
