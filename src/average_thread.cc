@@ -1,21 +1,18 @@
 #include "../include/average_thread.h"
 
 namespace average_thread {
-IAveragePromise::IAveragePromise() : average_(boost::promise<double>()) {}
-
-boost::unique_future<double> IAveragePromise::get_future() {
-    return average_.get_future();
-}
-
-void IAveragePromise::set_value(double average) {
-    average_.set_value(average);
-}
+IAveragePromise::IAveragePromise() : boost::promise<double>(){};
 
 int AverageWorker(const IAverageProps& props, IAveragePromise& promise) {
     std::cout << "AVERAGE thread started\n";
 
     int* array = props.array();
     int size = props.size();
+
+    if (size < 1) {
+        promise.set_exception(boost::invalid_thread_argument());
+        return 1;
+    }
 
     double average = FindArrayAverage(array, size);
 

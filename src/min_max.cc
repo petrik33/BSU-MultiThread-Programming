@@ -8,6 +8,11 @@ int MinMaxWorker(const IMinMaxProps& props, IMinMaxPromise& promise) {
     int* array = props.array();
     int size = props.size();
 
+    if (size < 1) {
+        promise.set_exception(boost::invalid_thread_argument());
+        return 1;
+    }
+
     min_max_location_pair min_max_pos = LocateMinMax(array, size);
 
     int min = array[min_max_pos.first];
@@ -40,14 +45,6 @@ min_max_location_pair LocateMinMax(const int* array, const int size) {
     return min_max_pos;
 }
 
-IMinMaxPromise::IMinMaxPromise() : promise_(boost::promise<min_max_location_pair>()){};
-
-boost::unique_future<min_max_location_pair> IMinMaxPromise::get_future() {
-    return promise_.get_future();
-}
-
-void IMinMaxPromise::set_value(min_max_location_pair min_max_pos_) {
-    promise_.set_value(min_max_pos_);
-}
+IMinMaxPromise::IMinMaxPromise() : boost::promise<min_max_location_pair>(){};
 
 }  // namespace min_max_thread

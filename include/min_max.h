@@ -12,14 +12,9 @@ namespace min_max_thread {
 typedef std::pair<int, int> min_max_location_pair;
 typedef array_thread::IArrayThreadProps IMinMaxProps;
 
-class IMinMaxPromise {
+class IMinMaxPromise : public boost::promise<min_max_location_pair> {
    public:
     IMinMaxPromise();
-    boost::unique_future<min_max_location_pair> get_future();
-    void set_value(min_max_location_pair min_max_pos_);
-
-   protected:
-    boost::promise<min_max_location_pair> promise_;
 };
 
 int MinMaxWorker(const IMinMaxProps& props, IMinMaxPromise& promise);

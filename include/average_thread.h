@@ -10,14 +10,9 @@ namespace average_thread {
 
 typedef array_thread::IArrayThreadProps IAverageProps;
 
-class IAveragePromise {
+class IAveragePromise : public boost::promise<double> {
    public:
     IAveragePromise();
-    boost::unique_future<double> get_future();
-    void set_value(double average);
-
-   protected:
-    boost::promise<double> average_;
 };
 
 int AverageWorker(const IAverageProps& props, IAveragePromise& promise);
