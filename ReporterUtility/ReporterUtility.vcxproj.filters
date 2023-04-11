@@ -15,7 +15,12 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Main.cpp">
+    <ClInclude Include="..\ProcessCreation1\Reporter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\ProcessCreation1\Reporter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

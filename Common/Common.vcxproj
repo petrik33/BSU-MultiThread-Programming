@@ -21,10 +21,9 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{391e123d-fe67-4d03-8320-f42c2c82dc90}</ProjectGuid>
-    <RootNamespace>ProcessCreation1</RootNamespace>
+    <ProjectGuid>{cb904b11-09b8-48d9-b0bf-e411e529e3b0}</ProjectGuid>
+    <RootNamespace>Common</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>MainProgram</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -128,15 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Main.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\CreatorUtility\CreatorUtility.vcxproj">
-      <Project>{52ec6068-da11-4af7-b961-f95db9c724fd}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\ReporterUtility\ReporterUtility.vcxproj">
-      <Project>{64c75d7f-05ac-4af9-b4f9-75fc91a94b35}</Project>
-    </ProjectReference>
+    <ClInclude Include="..\ProcessCreation1\Employee.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
