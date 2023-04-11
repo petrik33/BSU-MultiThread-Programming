@@ -1,12 +1,7 @@
 #ifndef REPORTER_H_
 #define REPORTER_H_
 
-#include <Windows.h>
 
-#include <fstream>
-#include <iostream>
-
-#include "../Common/Employee.h"
 
 namespace reporter {
 

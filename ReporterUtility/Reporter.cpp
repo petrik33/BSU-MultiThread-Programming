@@ -1,15 +1,31 @@
-#include "Reporter.h"
+#include <Windows.h>
 
-namespace reporter {
+#include <fstream>
+#include <iostream>
+#include <string>
 
-DWORD __stdcall reporter::Reporter(LPVOID iReporterProps) {
-  const IReporterProps* props = static_cast<IReporterProps*>(iReporterProps);
-  std::cout << "REPORTER started work\n\n";
+#include "Employee.h"
 
-  std::ifstream input(props->binaryName, std::ios::in | std::ios::binary);
-  std::ofstream output(props->fileName, std::ios::out);
+Employee* readEmployeeFromBinary(std::ifstream& in);
+void writeReportLine(Employee* employee, double wage, std::ostream& out);
 
-  output << "Report for file " << props->fileName << "\n";
+int main(int argc, char* argv[]) {
+  if (argc != 4) {
+    std::cerr << "Error: Expected 3 arguments, but got " << argc - 1
+              << std::endl;
+    std::cerr << "Usage: " << argv[0] << " <binaryName> <fileName> <wage>"
+              << std::endl;
+    return 1;
+  }
+  std::cout << "REPORTER started work\n";
+  const char* binaryName = argv[1];
+  const char* fileName = argv[2];
+  double wage = std::stod(argv[3]);
+
+  std::ifstream input(binaryName, std::ios::in | std::ios::binary);
+  std::ofstream output(fileName, std::ios::out);
+
+  output << "Report for file " << fileName << "\n";
 
   while (!input.eof()) {
     Employee* employee = readEmployeeFromBinary(input);
@@ -18,7 +34,7 @@ DWORD __stdcall reporter::Reporter(LPVOID iReporterProps) {
       continue;
     }
 
-    writeReportLine(employee, props->wage, output);
+    writeReportLine(employee, wage, output);
     delete employee;
   }
 
@@ -30,7 +46,7 @@ DWORD __stdcall reporter::Reporter(LPVOID iReporterProps) {
   return 0;
 }
 
-Employee* reporter::readEmployeeFromBinary(std::ifstream& in) {
+Employee* readEmployeeFromBinary(std::ifstream& in) {
   int num;
   char name[50];
   double hours;
@@ -51,13 +67,10 @@ Employee* reporter::readEmployeeFromBinary(std::ifstream& in) {
   return employee;
 }
 
-void reporter::writeReportLine(Employee* employee, double wage,
-                               std::ostream& out) {
+void writeReportLine(Employee* employee, double wage, std::ostream& out) {
   double earnedAmount = wage * employee->hours;
   out << employee->num << ", ";
   out << employee->name << ", ";
   out << employee->hours << ", ";
   out << earnedAmount << "\n";
 }
-
-}  // namespace reporter
