@@ -6,7 +6,7 @@
 #include <fstream>
 #include <iostream>
 
-#include "Employee.h"
+#include "../Common/Employee.h"
 
 namespace reporter {
 

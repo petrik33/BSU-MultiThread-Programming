@@ -1,8 +1,8 @@
 #include <fstream>
 #include <iostream>
 
-#include "Creator.h"
-#include "Reporter.h"
+#include "../CreatorUtility/Creator.h"
+#include "../ReporterUtility/Reporter.h"
 
 DWORD WINAPI creator::Creator(LPVOID iCreatorProps);
 DWORD WINAPI reporter::Reporter(LPVOID iReporterProps);
