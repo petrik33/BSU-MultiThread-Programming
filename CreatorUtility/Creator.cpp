@@ -1,18 +1,21 @@
-#include "Creator.h"
+#include <Windows.h>
 
-namespace creator {
+#include <fstream>
+#include <iostream>
+#include <string>
 
-DWORD __stdcall Creator(LPVOID iCreatorProps) {
-  const ICreatorProps* props = static_cast<ICreatorProps*>(iCreatorProps);
+#include "Employee.h"
+
+int main(int argc, char* argv[]) {
   std::cout << "CREATOR started work\n\n";
+  const char* fileName = argv[1];
+  const int recordsNum = std::stoi(argv[2]);
 
-  std::ofstream output(props->fileName, std::ios::out | std::ios::binary);
+  std::ofstream output(fileName, std::ios::out | std::ios::binary);
 
-  for (int i = 0; i < props->recordsNum; i++) {
+  for (int i = 0; i < recordsNum; i++) {
     Employee* employee = readEmployeeFromConsole();
     writeEmployeeToStream(employee, output);
-    // Debug
-    writeEmployeeToStream(employee, std::clog);
     delete employee;
   }
 
@@ -42,5 +45,3 @@ void writeEmployeeToStream(Employee* employee, std::ostream& out) {
   out << employee->name << " ";
   out << employee->hours << "\n";
 }
-
-}  // namespace creator
