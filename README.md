@@ -8,9 +8,9 @@ During this course I learned and used:
 
 * Primitives of Multi-Threading
 * Threads Synchronization
-* Boost Library
-* GNU Make
-* Google Test Framework
+* [Boost Library](https://www.boost.org/)
+* [GNU Make](https://www.gnu.org/software/make/)
+* [Google Test Framework](https://github.com/google/googletest)
 * [Google Styleguide](https://google.github.io/styleguide/cppguide.html)
 
 The course in unfinished so the repository is yet to grow.
