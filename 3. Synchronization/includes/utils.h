@@ -5,6 +5,7 @@ namespace utils {
 
 // Generates random number from min inclusively to max exclusively
 int GetRandomNumber(int min, int max);
+void ThreadImitateWork(int miliseconds);
 
 }  // namespace utils
 
