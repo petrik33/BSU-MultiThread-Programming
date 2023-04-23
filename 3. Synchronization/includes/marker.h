@@ -4,25 +4,28 @@
 #include <memory>
 #include <mutex>
 #include <thread>
+#include <vector>
 
-using std::mutex;
-using std::shared_ptr;
-
-namespace sync_threads {
 namespace marker {
 
-class Props {
+typedef std::shared_ptr<std::vector<int>> SharedVectorPtr;
+
+class Manager {
    public:
-    Props(shared_ptr<int[]> array, shared_ptr<mutex> array_write_mutex) : array_(array), array_write_mutex_(array_write_mutex){};
+    Manager(SharedVectorPtr data, int threads_num);
 
    private:
-    shared_ptr<int[]> array_;
-    shared_ptr<mutex> array_write_mutex_;
+    int Worker(int index);
+    void Mark(int data_index, int marker_index);
+    
+    int alive;
+    int working;
+    std::vector<std::thread> workers_;
+    SharedVectorPtr data_;
+    std::mutex data_write_mutex_;
+    std::mutex working_signal_mutex_;
 };
 
-int Worker();
-
 }  // namespace marker
-}  // namespace sync_threads
 
 #endif /* INCLUDES_MARKER_H_ */
