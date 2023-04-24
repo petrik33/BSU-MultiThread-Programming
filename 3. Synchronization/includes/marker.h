@@ -1,29 +1,25 @@
 #ifndef INCLUDES_MARKER_H_
 #define INCLUDES_MARKER_H_
 
-#include <memory>
-#include <mutex>
-#include <thread>
+#include <iostream>
 #include <vector>
 
 namespace marker {
 
-typedef std::shared_ptr<std::vector<int>> SharedVectorPtr;
-
-class Manager {
+class Marker {
    public:
-    Manager(SharedVectorPtr data, int threads_num);
+    explicit Marker(int index);
+    void MarkElement(std::vector<int>& data, int element_index);
+    void UnmarkElements(std::vector<int>& data);
+    int FindMarkTarget(std::vector<int>& data) const;
+    bool ElementIsMarkable(std::vector<int>& data, int element_index) const;
+    void PrintIndex(std::ostream& stream) const;
+    void PrintMarkedElementsNumber(std::ostream& stream) const;
+    void PrintUnmarkableElement(std::ostream& stream, int element_index) const;
 
    private:
-    int Worker(int index);
-    void Mark(int data_index, int marker_index);
-    
-    int alive;
-    int working;
-    std::vector<std::thread> workers_;
-    SharedVectorPtr data_;
-    std::mutex data_write_mutex_;
-    std::mutex working_signal_mutex_;
+    std::vector<int> marked_elements_;  // indexes
+    int index_;
 };
 
 }  // namespace marker

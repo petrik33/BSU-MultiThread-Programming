@@ -2,27 +2,41 @@
 
 #include "../includes/utils.h"
 
-using std::lock_guard;
-using std::unique_lock;
-
 namespace marker {
 
-Manager::Manager(SharedVectorPtr data, int threads_num) : alive(threads_num), working(0), data_(data), data_write_mutex_(), working_signal_mutex_() {
-    workers_.reserve(threads_num);
-}
-
-int Manager::Worker(int index) {
+Marker::Marker(int index) : index_(index), marked_elements_() {
     srand(index);
-    const int kDataSize = data_.get()->size();
-    int index_to_mark = utils::GetRandomNumber(0, kDataSize);
 }
 
-void Manager::Mark(int data_index, int marker_index) {
-    unique_lock data_lock{data_write_mutex_};
-    utils::ThreadImitateWork(5);
-    (*data_.get())[data_index] = marker_index;
-    data_lock.unlock();
-    utils::ThreadImitateWork(5);
+void Marker::MarkElement(std::vector<int>& data, int element_index) {
+    data[element_index] = index_;
+    marked_elements_.push_back(element_index);
+}
+
+int Marker::FindMarkTarget(std::vector<int>& data) const {
+    return utils::GetRandomNumber(0, data.size());
+}
+
+bool Marker::ElementIsMarkable(std::vector<int>& data, int element_index) const {
+    return data[element_index] == 0;
+}
+
+void Marker::UnmarkElements(std::vector<int>& data) {
+    for (auto& idx : marked_elements_) {
+        data[idx] = 0;
+    }
+}
+
+void Marker::PrintIndex(std::ostream& stream) const {
+    stream << "Thread number " << index_ << std::endl;
+}
+
+void Marker::PrintMarkedElementsNumber(std::ostream& stream) const {
+    stream << "Elements marked: " << marked_elements_.size() << std::endl;
+}
+
+void Marker::PrintUnmarkableElement(std::ostream& stream, int element_index) const {
+    stream << "Unable to mark element " << element_index + 1 << std::endl;
 }
 
 }  // namespace marker
