@@ -13,11 +13,11 @@ void Marker::MarkElement(std::vector<int>& data, int element_index) {
     marked_elements_.push_back(element_index);
 }
 
-int Marker::FindMarkTarget(std::vector<int>& data) const {
+int Marker::FindMarkTarget(std::vector<int>& data) {
     return utils::GetRandomNumber(0, data.size());
 }
 
-bool Marker::ElementIsMarkable(std::vector<int>& data, int element_index) const {
+bool Marker::ElementIsMarkable(std::vector<int>& data, int element_index) {
     return data[element_index] == 0;
 }
 

@@ -11,8 +11,8 @@ class Marker {
     explicit Marker(int index);
     void MarkElement(std::vector<int>& data, int element_index);
     void UnmarkElements(std::vector<int>& data);
-    int FindMarkTarget(std::vector<int>& data) const;
-    bool ElementIsMarkable(std::vector<int>& data, int element_index) const;
+    static int FindMarkTarget(std::vector<int>& data);
+    static bool ElementIsMarkable(std::vector<int>& data, int element_index);
     void PrintIndex(std::ostream& stream) const;
     void PrintMarkedElementsNumber(std::ostream& stream) const;
     void PrintUnmarkableElement(std::ostream& stream, int element_index) const;
