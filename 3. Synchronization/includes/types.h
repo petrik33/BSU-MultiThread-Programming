@@ -19,6 +19,7 @@ using std::ostream;
 using std::shared_ptr;
 using std::thread;
 using std::unique_lock;
+using std::unique_ptr;
 using std::vector;
 
 using utils::GetRandomNumber;
