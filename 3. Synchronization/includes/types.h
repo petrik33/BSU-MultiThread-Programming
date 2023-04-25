@@ -8,6 +8,8 @@
 #include <thread>
 #include <vector>
 
+#include "./utils.h"
+
 namespace data_marker {
 
 using mark_data = std::vector<int>;
@@ -18,6 +20,9 @@ using std::shared_ptr;
 using std::thread;
 using std::unique_lock;
 using std::vector;
+
+using utils::GetRandomNumber;
+using utils::ThreadImitateWork;
 
 }  // namespace data_marker
 
