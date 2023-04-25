@@ -2,28 +2,28 @@
 
 #include "../includes/utils.h"
 
-namespace marker {
+namespace data_marker {
 
 Marker::Marker(int index) : index_(index), marked_elements_() {
     srand(index);
 }
 
-void Marker::MarkElement(std::vector<int>& data, int element_index) {
-    data[element_index] = index_;
-    marked_elements_.push_back(element_index);
+void Marker::MarkTargetElement() {
+    data_.get()->at(mark_target_) = index_;
+    marked_elements_.push_back(mark_target_);
 }
 
-int Marker::FindMarkTarget(std::vector<int>& data) {
-    return utils::GetRandomNumber(0, data.size());
+void Marker::FindMarkTarget() {
+    mark_target_ = utils::GetRandomNumber(0, data_.get()->size());
 }
 
-bool Marker::ElementIsMarkable(std::vector<int>& data, int element_index) {
-    return data[element_index] == 0;
+bool Marker::TargetIsMarkable() {
+    return data_.get()->at(mark_target_) == 0;
 }
 
-void Marker::UnmarkElements(std::vector<int>& data) {
+void Marker::UnmarkElements() {
     for (auto& idx : marked_elements_) {
-        data[idx] = 0;
+        data_.get()->at(idx) = 0;
     }
 }
 
@@ -35,8 +35,8 @@ void Marker::PrintMarkedElementsNumber(std::ostream& stream) const {
     stream << "Elements marked: " << marked_elements_.size() << std::endl;
 }
 
-void Marker::PrintUnmarkableElement(std::ostream& stream, int element_index) const {
-    stream << "Unable to mark element " << element_index + 1 << std::endl;
+void Marker::PrintUnmarkableElement(std::ostream& stream) const {
+    stream << "Unable to mark element " << mark_target_ + 1 << std::endl;
 }
 
-}  // namespace marker
+}  // namespace data_marker
