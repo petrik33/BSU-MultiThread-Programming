@@ -38,23 +38,24 @@ StateHappy::StateHappy(Actor* actor) : State(actor) {
 void StateHappy::Render() {
     const int y = actor_->y();
     const int x = actor_->x();
+    string xoffset(x, ' ');
     // Draw the smile at the current position
     cout << string(y, '\n');  // Move the cursor to the correct row
-    cout << string(x, ' ');   // Move the cursor to the correct column
+    cout << xoffset;          // Move the cursor to the correct column
     cout << "     _____     " << endl;
-    cout << string(x, ' ');
+    cout << xoffset;
     cout << "  .-'     `-.  " << endl;
-    cout << string(x, ' ');
+    cout << xoffset;
     cout << " /           \\ " << endl;
-    cout << string(x, ' ');
+    cout << xoffset;
     cout << "| o       o | " << endl;
-    cout << string(x, ' ');
+    cout << xoffset;
     cout << "|           | " << endl;
-    cout << string(x, ' ');
+    cout << xoffset;
     cout << "|  \\     /  | " << endl;
-    cout << string(x, ' ');
+    cout << xoffset;
     cout << " \\  `---'  /  " << endl;
-    cout << string(x, ' ');
+    cout << xoffset;
     cout << "  `-.___.-'   " << endl;
 }
 
@@ -68,23 +69,24 @@ StateIdle::StateIdle(Actor* actor) : State(actor) {
 void StateIdle::Render() {
     const int y = actor_->y();
     const int x = actor_->x();
+    string xoffset(x, ' ');
     // Draw the face at the current position
     cout << string(y, '\n');  // Move the cursor to the correct row
-    cout << string(x, ' ');   // Move the cursor to the correct column
+    cout << xoffset;          // Move the cursor to the correct column
     cout << "     _____     " << endl;
-    cout << string(x, ' ');
+    cout << xoffset;
     cout << "  .'       '.  " << endl;
-    cout << string(x, ' ');
+    cout << xoffset;
     cout << " /           \\ " << endl;
-    cout << string(x, ' ');
+    cout << xoffset;
     cout << "|   0     0   | " << endl;
-    cout << string(x, ' ');
+    cout << xoffset;
     cout << "|      ^      | " << endl;
-    cout << string(x, ' ');
+    cout << xoffset;
     cout << "| \\     /    | " << endl;
-    cout << string(x, ' ');
+    cout << xoffset;
     cout << " \\  ___  /  " << endl;
-    cout << string(x, ' ');
+    cout << xoffset;
     cout << "  `-.___,-'   " << endl;
 }
 
@@ -98,25 +100,26 @@ StateSad::StateSad(Actor* actor) : State(actor) {
 void StateSad::Render() {
     const int y = actor_->y();
     const int x = actor_->x();
+    string xoffset(x, ' ');
     // Draw the face at the current position
     cout << string(y, '\n');  // Move the cursor to the correct row
-    cout << string(x, ' ');   // Move the cursor to the correct column
+    cout << xoffset;          // Move the cursor to the correct column
     cout << "     _____     " << endl;
-    cout << string(x, ' ');
+    cout << xoffset;
     cout << "  .'       '.  " << endl;
-    cout << string(x, ' ');
+    cout << xoffset;
     cout << " /           \\ " << endl;
-    cout << string(x, ' ');
+    cout << xoffset;
     cout << "|   0     0   | " << endl;
-    cout << string(x, ' ');
+    cout << xoffset;
     cout << "|      ^      | " << endl;
-    cout << string(x, ' ');
+    cout << xoffset;
     cout << "|  .     .    | " << endl;
-    cout << string(x, ' ');
+    cout << xoffset;
     cout << "|  \\_____\\_/ | " << endl;
-    cout << string(x, ' ');
+    cout << xoffset;
     cout << " \\          /  " << endl;
-    cout << string(x, ' ');
+    cout << xoffset;
     cout << "  `-.___,-'   " << endl;
 }
 
