@@ -14,6 +14,7 @@ namespace data_marker {
 
 using mark_data = std::vector<int>;
 using std::condition_variable;
+using std::cout;
 using std::mutex;
 using std::ostream;
 using std::shared_ptr;
@@ -21,6 +22,9 @@ using std::thread;
 using std::unique_lock;
 using std::unique_ptr;
 using std::vector;
+
+using std::make_shared;
+using std::make_unique;
 
 using utils::GetRandomNumber;
 using utils::ThreadImitateWork;

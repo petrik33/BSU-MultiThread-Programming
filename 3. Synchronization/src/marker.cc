@@ -1,10 +1,8 @@
 #include "../includes/marker.h"
 
-#include "../includes/utils.h"
-
 namespace data_marker {
 
-Marker::Marker(int index) : index_(index), marked_elements_() {
+Marker::Marker(int index, shared_ptr<mark_data> data) : index_(index), marked_elements_(), data_(data) {
     srand(index);
 }
 
@@ -14,11 +12,17 @@ void Marker::MarkTargetElement() {
 }
 
 void Marker::FindMarkTarget() {
-    mark_target_ = utils::GetRandomNumber(0, data_.get()->size());
+    mark_target_ = GetRandomNumber(0, data_.get()->size());
 }
 
 bool Marker::TargetIsMarkable() {
     return data_.get()->at(mark_target_) == 0;
+}
+
+void Marker::PrintFinishedMarking(ostream& stream) const {
+    PrintIndex(stream);
+    PrintMarkedElementsNumber(stream);
+    PrintUnmarkableElement(stream);
 }
 
 void Marker::UnmarkElements() {

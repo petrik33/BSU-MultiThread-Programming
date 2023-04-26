@@ -5,94 +5,65 @@
 
 using std::unique_lock;
 
-namespace marker {
-Manager& Manager::InitializeMarkersManager(int data_size, int threads_num) {
-    Manager manager{data_size, threads_num};
-    manager.StartWorkers();
+namespace data_marker {
+Manager::Manager(shared_ptr<mark_data> data) : data_(data), workers_busy_(0) {
 }
 
-void Manager::DeactivateWorker(int index) {
-    active_workers_[index] = false;
+void Manager::StartSyncThread(int index) {
+    threads_.push_back(thread{Manager::SingleSyncWorker, index});
 }
 
-void Manager::WaitWorkers() {
-    unique_lock workers_lock{work_cycle_mutex_};
-    signal_no_workers_busy_.wait(workers_lock, [this] { return !workers_busy_; });
+void Manager::StopSyncThread(int index) {
+    DeactivateWorker(index);
+    threads_[index].join();
 }
 
-void Manager::StartWorkers() {
-    unique_lock workers_lock{work_cycle_mutex_};
-    int threads_num = workers_.size();
-    int active_num = 0;
-    for (int i = 0; i < threads_num; i++) {
-        if (!active_workers_[i]) {
-            continue;
-        }
-        ++active_num;
-    }
-    workers_should_start_ = true;
-    workers_lock.unlock();
-    signal_workers_should_start_.notify_all();
-    workers_busy_ = active_num;
-}
-
-void Manager::PrintData(std::ostream& stream) {
-    for (auto& element : data_) {
+void Manager::PrintData(std::ostream& stream) const {
+    const mark_data& data_reference = *data_.get();
+    for (auto& element : data_reference) {
         stream << element << " ";
     }
     stream << std::endl;
 }
 
-Manager::Manager(int data_size, int threads_num) : data_(data_size, 0), active_workers_(threads_num, true), workers_busy_(0), workers_(threads_num, nullptr) {
-    for (int i = 0; i < threads_num; i++) {
-        workers_[i] = std::make_unique<std::thread>(Worker, &(*this));
-    }
-}
-
-int Manager::Worker(int index) {
-    Marker marker{index};
-    int element_index;
-
-    unique_lock work_lock{work_cycle_mutex_};
-    signal_workers_should_start_.wait(work_lock, [this] { return workers_should_start_; });
-    work_lock.unlock();
-
-    while (active_workers_[index]) {
-        while (WorkerCanMark(marker, element_index)) {
-            WorkerMark(marker, element_index);
+void Manager::SingleSyncWorker(int index) {
+    Worker& worker = workers_[index];
+    worker.WaitSignalToStartWork(workers_start_signal_, workers_start_mutex_);
+    while (worker.IsActive()) {
+        while (worker.TryMarking(data_mutex_)) {
         }
-        WorkerFinish(marker, element_index);
-        work_lock.lock();
-        signal_workers_should_start_.wait(work_lock, [this] { return workers_should_start_; });
-        work_lock.unlock();
+        worker.FinishWork(worker_finished_signal_, worker_finished_mutex_, data_mutex_);
+        worker.WaitSignalToStartWork(workers_start_signal_, workers_start_mutex_);
     }
+    worker.CleanMarking(data_mutex_);
 }
 
-bool Manager::WorkerCanMark(Marker& marker, int& element_index) {
-    int element_index = Marker::FindMarkTarget(data_);
-    return Marker::ElementIsMarkable(data_, element_index);
+void Manager::WaitRunningThreads() {
+    unique_lock workers_finished_lock{worker_finished_mutex_};
+    worker_finished_signal_.wait(workers_finished_lock, ReceiveFinishedWork);
 }
 
-void Manager::WorkerMark(Marker& marker, int element_index) {
-    unique_lock write_lock{data_write_mutex_};
-    utils::ThreadImitateWork(5);
-    marker.MarkElement(data_, element_index);
-    write_lock.unlock();
-    utils::ThreadImitateWork(5);
+void Manager::StartWaitingThreads() {
+    unique_lock workers_start_lock{workers_start_mutex_};
+    workers_start_signal_.notify_all();
 }
 
-void Manager::WorkerFinish(Marker& marker, int unmarked_index) {
-    MarkerPrintAll(marker, unmarked_index);
-    unique_lock work_lock{work_cycle_mutex_};
+void Manager::AddWorker() {
+    Worker worker{workers_.size(), data_};
+    workers_.push_back(worker);
+}
+
+void Manager::DeactivateWorker(int index) {
+    workers_[index].Deactivate();
+}
+
+bool Manager::ReceiveFinishedWork() {
     workers_busy_--;
-    work_lock.unlock();
-    signal_no_workers_busy_.notify_one();
+    return AllWorkersFree();
 }
 
-void Manager::MarkerPrintAll(Marker& marker, int unmarked_index) {
-    marker.PrintIndex(std::cout);
-    marker.PrintMarkedElementsNumber(std::cout);
-    marker.PrintUnmarkableElement(std::cout, unmarked_index);
+bool Manager::AllWorkersFree() const {
+    return workers_busy_ == 0;
 }
 
-}  // namespace marker
+}  // namespace data_marker

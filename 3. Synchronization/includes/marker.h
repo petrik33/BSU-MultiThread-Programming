@@ -7,11 +7,12 @@ namespace data_marker {
 
 class Marker {
    public:
-    explicit Marker(int index);
+    explicit Marker(int index, shared_ptr<mark_data> data);
     void MarkTargetElement();
     void UnmarkElements();
     void FindMarkTarget();
     bool TargetIsMarkable();
+    void PrintFinishedMarking(ostream& stream) const;
     void PrintIndex(ostream& stream) const;
     void PrintMarkedElementsNumber(ostream& stream) const;
     void PrintUnmarkableElement(ostream& stream) const;

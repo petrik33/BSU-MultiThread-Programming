@@ -2,26 +2,34 @@
 #define INCLUDES_MANAGER_H_
 
 #include "./types.h"
+#include "./worker.h"
 
 namespace data_marker {
 
 class Manager {
    public:
-    Manager(int data_size, int threads_num);
-    static Manager& StartManagerFromConsole(int data_size, int threads_num);
+    Manager(shared_ptr<mark_data> data);
+    void SingleSyncWorker(int index);
+    void StartSyncThread(int index);
+    void StopSyncThread(int index);
+    void WaitRunningThreads();
+    void StartWaitingThreads();
+    void AddWorker();
     void DeactivateWorker(int index);
-    void WaitWorkers();
-    void StartWorkers();
-    void PrintData(ostream& stream);
+    bool ReceiveFinishedWork();
+    bool AllWorkersFree() const;
+    void PrintData(ostream& stream) const;
 
    private:
-    int workers_busy_;
-    bool workers_should_start_;
-    mark_data data_;
-    mutex data_write_mutex_;
-    mutex work_cycle_mutex_;
-    condition_variable signal_no_workers_busy_;
-    condition_variable signal_workers_should_start_;
+    shared_ptr<mark_data> data_;
+    vector<thread> threads_;
+    vector<Worker> workers_;
+    mutable int workers_busy_;
+    mutex data_mutex_;
+    mutex workers_start_mutex_;
+    mutex worker_finished_mutex_;
+    condition_variable workers_start_signal_;
+    condition_variable worker_finished_signal_;
 };
 
 }  // namespace data_marker
