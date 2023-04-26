@@ -1,7 +1,8 @@
 #include "../includes/actor.h"
 
 namespace colloq {
-Actor::Actor() : state(new StateIdle()), x_(0), y_(0) {}
+Actor::Actor() : state(new StateIdle(this)), x_(0), y_(0) {
+}
 
 Actor::~Actor() {
     delete state;
@@ -15,11 +16,11 @@ void Actor::Update() {
     }
 }
 
-int Actor::x() const {
+const int Actor::x() const {
     return x_;
 }
 
-int Actor::y() const {
+const int Actor::y() const {
     return y_;
 }
 

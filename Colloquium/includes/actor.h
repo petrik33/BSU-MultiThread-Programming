@@ -13,8 +13,8 @@ class Actor {
     Actor();
     ~Actor();
     void Update();
-    int x() const;
-    int y() const;
+    const int x() const;
+    const int y() const;
     void move(int dx, int dy);
 
    private:

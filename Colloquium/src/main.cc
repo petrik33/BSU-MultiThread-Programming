@@ -9,7 +9,7 @@ int main() {
 
     while (true) {
         // Clear the console screen
-        cout.flush();
+        std::cout << "\033[2J\033[1;1H";
 
         actor.Update();
 

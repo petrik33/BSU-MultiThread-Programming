@@ -13,12 +13,12 @@ class Actor;
 
 class State {
    public:
-    State();
+    State(Actor* actor);
     virtual ~State();
     State* Update();
 
    protected:
-    Actor* actor;
+    Actor* actor_;
     virtual void Render() = 0;
     virtual void Move() = 0;
     virtual State* HandleInput();
@@ -26,7 +26,7 @@ class State {
 
 class StateHappy : public State {
    public:
-    StateHappy();
+    StateHappy(Actor* actor);
 
    protected:
     void Render() override;
@@ -35,7 +35,7 @@ class StateHappy : public State {
 
 class StateIdle : public State {
    public:
-    StateIdle();
+    StateIdle(Actor* actor);
 
    private:
     void Render() override;
@@ -44,7 +44,7 @@ class StateIdle : public State {
 
 class StateSad : public State {
    public:
-    StateSad();
+    StateSad(Actor* actor);
 
    private:
     void Render() override;
