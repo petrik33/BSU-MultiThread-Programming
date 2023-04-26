@@ -12,7 +12,7 @@ class Actor {
    public:
     Actor();
     ~Actor();
-    void Update();
+    void Update(char input);
     const int x() const;
     const int y() const;
     void move(int dx, int dy);

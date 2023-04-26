@@ -7,15 +7,13 @@ State::State(Actor* actor) : actor_(actor) {
 State::~State() {
 }
 
-State* State::Update() {
+State* State::Update(char input) {
     Move();
     Render();
-    return HandleInput();
+    return HandleInput(input);
 }
 
-State* State::HandleInput() {
-    char input;
-    cin >> input;
+State* State::HandleInput(char input) {
     switch (input) {
         case '3': {
             return new StateSad(actor_);

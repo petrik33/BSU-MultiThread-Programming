@@ -15,13 +15,13 @@ class State {
    public:
     State(Actor* actor);
     virtual ~State();
-    State* Update();
+    State* Update(char input);
 
    protected:
     Actor* actor_;
     virtual void Render() = 0;
     virtual void Move() = 0;
-    virtual State* HandleInput();
+    virtual State* HandleInput(char input);
 };
 
 class StateHappy : public State {
