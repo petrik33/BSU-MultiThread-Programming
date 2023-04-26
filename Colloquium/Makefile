@@ -20,17 +20,16 @@ TEST_OBJ := $(patsubst $(TEST_DIR)/%.cc,$(OBJ_DIR)/%.o,$(TEST_SRC))
 # Libraries
 LIBS := 
 TEST_LIBS := -lgtest -lgtest_main
-BOOST_LIBS := -lboost_chrono -lboost_thread
 
 # Main target
 MAIN_TARGET := $(BIN_DIR)/main
 $(MAIN_TARGET): $(OBJ) $(OBJ_DIR)/main.o | $(BIN_DIR)
-	$(CC) $(CFLAGS) $^ -o $@ $(LIBS) $(BOOST_LIBS)
+	$(CC) $(CFLAGS) $^ -o $@ $(LIBS)
 
 # Test target
 TEST_TARGET := $(BIN_DIR)/test
 $(TEST_TARGET): $(filter-out $(OBJ_DIR)/main.o,$(OBJ)) $(TEST_OBJ) | $(BIN_DIR)
-	$(CC) $(CFLAGS) $^ -o $@ $(LIBS) $(TEST_LIBS) $(BOOST_LIBS)
+	$(CC) $(CFLAGS) $^ -o $@ $(LIBS) $(TEST_LIBS)
 
 # Object files compilation
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cc | $(OBJ_DIR)

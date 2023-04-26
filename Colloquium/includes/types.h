@@ -9,10 +9,7 @@ namespace colloq {
 using std::cin;
 using std::cout;
 using std::endl;
-using std::make_unique;
-using std::shared_ptr;
 using std::string;
-using std::unique_ptr;
 }  // namespace colloq
 
 #endif /* INCLUDES_TYPES_H_ */

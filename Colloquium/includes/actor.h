@@ -11,13 +11,14 @@ class State;
 class Actor {
    public:
     Actor();
+    ~Actor();
     void Update();
     int x() const;
     int y() const;
     void move(int dx, int dy);
 
    private:
-    unique_ptr<State> state;
+    State* state;
     int x_;
     int y_;
 };

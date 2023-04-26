@@ -27,7 +27,7 @@ State* State::HandleInput() {
             return new StateIdle();
         }
         default: {
-            return nullptr;
+            return this;
         }
     }
 }
@@ -36,8 +36,8 @@ StateHappy::StateHappy() : State() {
 }
 
 void StateHappy::Render() {
-    const int y = actor.get()->y();
-    const int x = actor.get()->x();
+    const int y = actor->y();
+    const int x = actor->x();
     // Draw the smile at the current position
     cout << string(y, '\n');  // Move the cursor to the correct row
     cout << string(x, ' ');   // Move the cursor to the correct column
@@ -59,15 +59,15 @@ void StateHappy::Render() {
 }
 
 void StateHappy::Move() {
-    actor.get()->move(3, 0);
+    actor->move(3, 0);
 }
 
 StateIdle::StateIdle() : State() {
 }
 
 void StateIdle::Render() {
-    const int y = actor.get()->y();
-    const int x = actor.get()->x();
+    const int y = actor->y();
+    const int x = actor->x();
     // Draw the face at the current position
     cout << string(y, '\n');  // Move the cursor to the correct row
     cout << string(x, ' ');   // Move the cursor to the correct column
@@ -96,8 +96,8 @@ StateSad::StateSad() : State() {
 }
 
 void StateSad::Render() {
-    const int y = actor.get()->y();
-    const int x = actor.get()->x();
+    const int y = actor->y();
+    const int x = actor->x();
     // Draw the face at the current position
     cout << string(y, '\n');  // Move the cursor to the correct row
     cout << string(x, ' ');   // Move the cursor to the correct column
@@ -119,7 +119,7 @@ void StateSad::Render() {
 }
 
 void StateSad::Move() {
-    actor.get()->move(0, 2);
+    actor->move(0, 2);
 }
 
 }  // namespace colloq

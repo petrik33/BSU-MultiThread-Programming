@@ -2,14 +2,14 @@
 
 #include "../includes/actor.h"
 
-namespace colloq {
+using namespace colloq;
 
 int main() {
     Actor actor;
 
     while (true) {
         // Clear the console screen
-        system("cls");
+        cout.flush();
 
         actor.Update();
 
@@ -18,5 +18,3 @@ int main() {
 
     return 0;
 }
-
-}  // namespace colloq

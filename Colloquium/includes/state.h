@@ -18,7 +18,7 @@ class State {
     State* Update();
 
    protected:
-    shared_ptr<Actor> actor;
+    Actor* actor;
     virtual void Render() = 0;
     virtual void Move() = 0;
     virtual State* HandleInput();

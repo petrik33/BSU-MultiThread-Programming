@@ -1,12 +1,17 @@
 #include "../includes/actor.h"
 
 namespace colloq {
-Actor::Actor() : x_(0), y_(0), state(make_unique<StateIdle>()) {}
+Actor::Actor() : state(new StateIdle()), x_(0), y_(0) {}
+
+Actor::~Actor() {
+    delete state;
+}
 
 void Actor::Update() {
-    State* next_state = state.get()->Update();
-    if (next_state) {
-        state = make_unique<State>(next_state);
+    State* next_state = state->Update();
+    if (next_state != state) {
+        delete state;
+        state = next_state;
     }
 }
 
