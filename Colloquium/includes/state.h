@@ -6,35 +6,22 @@
 
 namespace colloq {
 
+class StateHappy;
+class StateIdle;
+class StateSad;
+class Actor;
+
 class State {
    public:
     State();
     virtual ~State();
-    State* Update() {
-        Move();
-        Render();
-        return HandleInput();
-    };
+    State* Update();
 
    protected:
     shared_ptr<Actor> actor;
     virtual void Render() = 0;
     virtual void Move() = 0;
-    virtual State* HandleInput() {
-        char input;
-        cin >> input;
-        switch (input) {
-            case '1': {
-                return new StateHappy();
-            }
-            case ' ': {
-                return new StateIdle();
-            }
-            default: {
-                return nullptr;
-            }
-        }
-    };
+    virtual State* HandleInput();
 };
 
 class StateHappy : public State {
@@ -42,31 +29,8 @@ class StateHappy : public State {
     StateHappy();
 
    protected:
-    void Render() override {
-        const int y = actor.get()->y();
-        const int x = actor.get()->x();
-        // Draw the smile at the current position
-        cout << string(y, '\n');  // Move the cursor to the correct row
-        cout << string(x, ' ');   // Move the cursor to the correct column
-        cout << "     _____     " << endl;
-        cout << string(x, ' ');
-        cout << "  .-'     `-.  " << endl;
-        cout << string(x, ' ');
-        cout << " /           \\ " << endl;
-        cout << string(x, ' ');
-        cout << "| o       o | " << endl;
-        cout << string(x, ' ');
-        cout << "|           | " << endl;
-        cout << string(x, ' ');
-        cout << "|  \\     /  | " << endl;
-        cout << string(x, ' ');
-        cout << " \\  `---'  /  " << endl;
-        cout << string(x, ' ');
-        cout << "  `-.___.-'   " << endl;
-    }
-    void Move() override {
-        actor.get()->move(3, 0);
-    }
+    void Render() override;
+    void Move() override;
 };
 
 class StateIdle : public State {
@@ -74,31 +38,8 @@ class StateIdle : public State {
     StateIdle();
 
    private:
-    void Render() override {
-        const int y = actor.get()->y();
-        const int x = actor.get()->x();
-        // Draw the face at the current position
-        cout << string(y, '\n');  // Move the cursor to the correct row
-        cout << string(x, ' ');   // Move the cursor to the correct column
-        cout << "     _____     " << endl;
-        cout << string(x, ' ');
-        cout << "  .'       '.  " << endl;
-        cout << string(x, ' ');
-        cout << " /           \\ " << endl;
-        cout << string(x, ' ');
-        cout << "|   0     0   | " << endl;
-        cout << string(x, ' ');
-        cout << "|      ^      | " << endl;
-        cout << string(x, ' ');
-        cout << "| \\     /    | " << endl;
-        cout << string(x, ' ');
-        cout << " \\  ___  /  " << endl;
-        cout << string(x, ' ');
-        cout << "  `-.___,-'   " << endl;
-    };
-    void Move() override {
-        //
-    }
+    void Render() override;
+    void Move() override;
 };
 
 class StateSad : public State {
@@ -106,31 +47,8 @@ class StateSad : public State {
     StateSad();
 
    private:
-    void Render() override {
-        const int y = actor.get()->y();
-        const int x = actor.get()->x();
-        // Draw the face at the current position
-        cout << string(y, '\n');  // Move the cursor to the correct row
-        cout << string(x, ' ');   // Move the cursor to the correct column
-        cout << "     _____     " << endl;
-        cout << string(x, ' ');
-        cout << "  .'       '.  " << endl;
-        cout << string(x, ' ');
-        cout << " /           \\ " << endl;
-        cout << string(x, ' ');
-        cout << "|   0     0   | " << endl;
-        cout << string(x, ' ');
-        cout << "|      ^      | " << endl;
-        cout << string(x, ' ');
-        cout << "| \\     /    | " << endl;
-        cout << string(x, ' ');
-        cout << " \\  ___  /  " << endl;
-        cout << string(x, ' ');
-        cout << "  `-.___,-'   " << endl;
-    };
-    void Move() override {
-        actor.get()->move(0, 2);
-    }
+    void Render() override;
+    void Move() override;
 };
 
 }  // namespace colloq

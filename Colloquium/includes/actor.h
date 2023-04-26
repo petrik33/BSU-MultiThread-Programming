@@ -6,21 +6,15 @@
 
 namespace colloq {
 
+class State;
+
 class Actor {
    public:
     Actor();
-    void Update() {
-        State* next_state = state.get()->Update();
-        if (next_state) {
-            state = make_unique<State>(next_state);
-        }
-    };
-    int x() const { return x_; };
-    int y() const { return y_; };
-    void move(int dx, int dy) {
-        x_ += dx;
-        y_ += dy;
-    }
+    void Update();
+    int x() const;
+    int y() const;
+    void move(int dx, int dy);
 
    private:
     unique_ptr<State> state;
