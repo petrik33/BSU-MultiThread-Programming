@@ -1,7 +1,7 @@
 #include "../includes/worker.h"
 
 namespace data_marker {
-Worker::Worker(int index, shared_ptr<mark_data> data) : marker_(index, data), active_(true), busy_(false) {}
+Worker::Worker(int index, shared_ptr<mark_data> data) : busy_(false), active_(true), marker_(index, data) {}
 
 void Worker::WaitSignalToStartWork(condition_variable& start_signal, mutex& start_mutex) {
     unique_lock start_lock{start_mutex};
@@ -9,8 +9,8 @@ void Worker::WaitSignalToStartWork(condition_variable& start_signal, mutex& star
 }
 
 bool Worker::TryMarking(mutex& data_mutex) {
-    marker_.FindMarkTarget();
     unique_lock data_lock{data_mutex};
+    marker_.FindMarkTarget();
     if (!marker_.TargetIsMarkable()) {
         return false;
     }
@@ -27,9 +27,9 @@ void Worker::CleanMarking(mutex& data_mutex) {
 }
 
 void Worker::FinishWork(condition_variable& finish_signal, mutex& finish_mutex, mutex& data_mutex) {
+    unique_lock finish_lock{finish_mutex};
     marker_.PrintFinishedMarking(cout);
     CleanMarking(data_mutex);
-    unique_lock finish_lock{finish_mutex};
     busy_ = false;
     finish_signal.notify_all();
 }
@@ -42,7 +42,7 @@ bool Worker::IsActive() const {
     return active_;
 }
 
-bool Worker::Deactivate() {
+void Worker::Deactivate() {
     active_ = false;
 }
 

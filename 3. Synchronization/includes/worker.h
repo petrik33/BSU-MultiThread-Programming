@@ -14,7 +14,7 @@ class Worker {
     void FinishWork(condition_variable& finish_signal, mutex& finish_mutex, mutex& data_mutex);
     bool IsBusy() const;
     bool IsActive() const;
-    bool Deactivate();
+    void Deactivate();
 
    private:
     bool busy_;

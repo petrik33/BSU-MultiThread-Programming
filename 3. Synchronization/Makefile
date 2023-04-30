@@ -20,24 +20,28 @@ TEST_OBJ := $(patsubst $(TEST_DIR)/%.cc,$(OBJ_DIR)/%.o,$(TEST_SRC))
 # Libraries
 LIBS := 
 TEST_LIBS := -lgtest -lgtest_main
-BOOST_LIBS := -lboost_chrono -lboost_thread
 
 # Main target
 MAIN_TARGET := $(BIN_DIR)/main
 $(MAIN_TARGET): $(OBJ) $(OBJ_DIR)/main.o | $(BIN_DIR)
-	$(CC) $(CFLAGS) $^ -o $@ $(LIBS) $(BOOST_LIBS)
+	$(CC) $(CFLAGS) $^ -o $@ $(LIBS)
+
+# Debug target
+DEBUG_TARGET := $(BIN_DIR)/debug
+$(DEBUG_TARGET): $(OBJ) $(OBJ_DIR)/main.o | $(BIN_DIR)
+	$(CC) $(CFLAGS) -g $^ -o $@ $(LIBS)
 
 # Test target
 TEST_TARGET := $(BIN_DIR)/test
 $(TEST_TARGET): $(filter-out $(OBJ_DIR)/main.o,$(OBJ)) $(TEST_OBJ) | $(BIN_DIR)
-	$(CC) $(CFLAGS) $^ -o $@ $(LIBS) $(TEST_LIBS) $(BOOST_LIBS)
+	$(CC) $(CFLAGS) $^ -o $@ $(LIBS) $(TEST_LIBS)
 
 # Object files compilation
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cc | $(OBJ_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@ -I$(INCLUDE_DIR)
+	$(CC) $(CFLAGS) -c -g $< -o $@ -I$(INCLUDE_DIR)
 
 $(OBJ_DIR)/%.o: $(TEST_DIR)/%.cc | $(OBJ_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@ -I$(INCLUDE_DIR) -I$(TEST_DIR)
+	$(CC) $(CFLAGS) -c -g $< -o $@ -I$(INCLUDE_DIR) -I$(TEST_DIR)
 
 # Directories creation
 $(OBJ_DIR) $(BIN_DIR):
@@ -50,5 +54,7 @@ test: $(TEST_TARGET)
 	$(TEST_TARGET)
 run: build
 	$(MAIN_TARGET)
+debug: $(DEBUG_TARGET)
+	gdb $(DEBUG_TARGET)
 clean:
 	rm -rf $(OBJ_DIR)/* $(BIN_DIR)/*

@@ -2,17 +2,18 @@
 
 namespace data_marker {
 
-Marker::Marker(int index, shared_ptr<mark_data> data) : index_(index), marked_elements_(), data_(data) {
+Marker::Marker(int index, shared_ptr<mark_data> data) : data_(data), marked_elements_(), index_(index) {
     srand(index);
 }
 
 void Marker::MarkTargetElement() {
-    data_.get()->at(mark_target_) = index_;
+    data_.get()->at(mark_target_) = index_ + 1;
     marked_elements_.push_back(mark_target_);
 }
 
 void Marker::FindMarkTarget() {
-    mark_target_ = GetRandomNumber(0, data_.get()->size());
+    int max_index = data_.get()->size();
+    mark_target_ = GetRandomNumber(0, max_index);
 }
 
 bool Marker::TargetIsMarkable() {
@@ -32,7 +33,7 @@ void Marker::UnmarkElements() {
 }
 
 void Marker::PrintIndex(std::ostream& stream) const {
-    stream << "Thread number " << index_ << std::endl;
+    stream << "Thread number " << index_ + 1 << std::endl;
 }
 
 void Marker::PrintMarkedElementsNumber(std::ostream& stream) const {
