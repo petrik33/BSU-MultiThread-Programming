@@ -10,23 +10,24 @@ class Manager {
    public:
     Manager(shared_ptr<mark_data> data);
     void SingleSyncWorker(int index);
-    void RunSyncThread(int number = 1);
+    void AddWorker();
+    void StartSyncThread(int index);
     bool StopSyncThread(int index);
     void WaitRunningThreads();
     void StartWaitingThreads();
     bool AllWorkersFree() const;
     bool NoWorkersActive() const;
     void PrintData(ostream& stream) const;
+    void CheckFinishedWorker();
 
    private:
     shared_ptr<mark_data> data_;
     vector<thread> threads_;
     vector<Worker> workers_;
-    mutable int workers_busy_;
-    mutable int workers_active_;
-    mutex data_mutex_;
-    mutex workers_start_mutex_;
-    mutex worker_finished_mutex_;
+    int finished_worker_;
+    mutable mutex data_mutex_;
+    mutable mutex workers_start_mutex_;
+    mutable mutex worker_finished_mutex_;
     condition_variable workers_start_signal_;
     condition_variable worker_finished_signal_;
 };

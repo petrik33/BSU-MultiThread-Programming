@@ -19,7 +19,12 @@ int main() {
     InputDataFromConsole(data_size, workers_num);
     shared_ptr<mark_data> data{make_shared<mark_data>(data_size, 0)};
     Manager manager{data};
-    manager.RunSyncThread(workers_num);
+    for (int i = 0; i < workers_num; i++) {
+        manager.AddWorker();
+    }
+    for (int i = 0; i < workers_num; i++) {
+        manager.StartSyncThread(i);
+    }
     while (!manager.NoWorkersActive()) {
         manager.StartWaitingThreads();
         manager.WaitRunningThreads();

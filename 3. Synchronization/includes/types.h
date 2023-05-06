@@ -13,8 +13,10 @@
 namespace data_marker {
 
 using mark_data = std::vector<int>;
+using std::cin;
 using std::condition_variable;
 using std::cout;
+using std::endl;
 using std::mutex;
 using std::ostream;
 using std::shared_ptr;

@@ -7,6 +7,7 @@ Marker::Marker(int index, shared_ptr<mark_data> data) : data_(data), marked_elem
 }
 
 void Marker::MarkTargetElement() {
+    cout << index_ + 1 << " marker" << endl;
     data_.get()->at(mark_target_) = index_ + 1;
     marked_elements_.push_back(mark_target_);
 }
