@@ -67,8 +67,8 @@ void Manager::StartSyncThread(int index) {
 
 void Manager::WaitRunningThreads() {
     cout << "Main Thread Locked for finish wait" << endl;
-    unique_lock workers_finished_lock{worker_finished_mutex_};
-    worker_finished_signal_.wait(workers_finished_lock, [this] {
+    unique_lock worker_finished_lock{worker_finished_mutex_};
+    worker_finished_signal_.wait(worker_finished_lock, [this] {
         CheckFinishedWorker();
         return AllWorkersFree();
     });
@@ -80,6 +80,7 @@ void Manager::StartWaitingThreads() {
     for (auto& worker : workers_) {
         if (worker.IsActive()) {
             worker.SetStart(true);
+            worker.SetBusy(true);
         }
     }
     workers_start_signal_.notify_all();

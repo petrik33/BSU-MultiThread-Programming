@@ -7,7 +7,6 @@ void Worker::WaitSignalToStartWork(condition_variable& start_signal, mutex& star
     unique_lock start_lock{start_mutex};
     start_signal.wait(start_lock, [this] { return start_; });
     start_ = false;
-    busy_ = true;
 }
 
 bool Worker::TryMarking(mutex& data_mutex) {
@@ -34,7 +33,7 @@ void Worker::FinishWork(condition_variable& finish_signal, int& finished_worker,
     marker_.PrintFinishedMarking(cout);
     CleanMarking(data_mutex);
     finished_worker = index_;
-    finish_signal.notify_all();
+    finish_signal.notify_one();
     cout << "Finish lock Free from Thread " << index_ << endl;
 }
 
