@@ -1,0 +1,17 @@
+[package]
+name = "lab4"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "main"
+path = "src/main.rs"
+
+[[bin]]
+name = "sender"
+path = "src/sender.rs"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+named_pipe = "0.4.1"
