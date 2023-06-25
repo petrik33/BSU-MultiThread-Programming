@@ -13,7 +13,6 @@ use winapi::um::winbase;
 use winapi::um::winnt::{
     HANDLE,
 };
-use named_pipe;
 
 fn main() {
     let mut file = File::create("exchange.bin").expect("Should create file in relative path");
