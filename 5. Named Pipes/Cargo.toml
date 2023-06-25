@@ -3,8 +3,18 @@ name = "lab5"
 version = "0.1.0"
 edition = "2021"
 
+[[bin]]
+name = "main"
+path = "src/main.rs"
+
+[[bin]]
+name = "client"
+path = "src/client.rs"
+
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+named_pipe = "0.4.1"
 serde = "1.0.164"
 tokio = "1.28.2"
+winapi = "0.3.9"
